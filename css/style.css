@@ -1,0 +1,1074 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --accent: #ffd700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    overflow-y: hidden; /* Trava scroll nativo na hero */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Barrinha fina elegante */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4); /* Branco arredondado na Hero */
+    border-radius: 50px; /* Bolinha/Pílula */
+}
+
+body.light-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Preta 20% na folha branca */
+}
+
+body.light-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4); /* Leve escurecimento ao colocar o mouse */
+}
+
+/* Splash Screen */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-logo-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.splash-logo {
+    width: 150px;
+    height: auto;
+    z-index: 2;
+}
+
+.splash-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    z-index: 1;
+}
+
+.splash-spinner .path {
+    stroke: #ffffff;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    animation: drawCircle 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes drawCircle {
+    0% { stroke-dashoffset: 283; }
+    100% { stroke-dashoffset: 0; }
+}
+
+/* Header */
+header {
+    position: fixed; /* Alterado para fixed para acompanhar a descida na content-wrapper */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 4rem;
+    z-index: 100; /* Z-index altíssimo para ficar sobre todos conteúdos */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    height: 110px; /* Ajustado para um tamanho médio */
+    width: auto;
+    object-fit: contain;
+    margin: -30px -20px; /* Reduzido à proporção da altura */
+    filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.2));
+    transition: filter 0.5s ease;
+}
+
+/* Estado de Menu Aberto (Preto) sobre Fundo Branco */
+header.header-scrolled .logo-image {
+    filter: brightness(0); /* Fica preto na folha branca */
+}
+
+header.header-scrolled .main-nav a {
+    color: #000000; /* Mudar link pra preto */
+    font-weight: 600; /* Evita que o preto fino suma */
+}
+
+header.header-scrolled .nav-pill {
+    background: rgba(0, 0, 0, 0.05); /* Escurece vidro da pílula */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Nav Menu Styles */
+.main-nav {
+    position: relative; /* Container principal que guiará a pílula animada */
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem; /* Reduzindo gap para que a pílula acompanhe os botões de perto */
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    padding: 10px 24px; /* O padding forma o volume interno invisível que a pílula irá cobrir */
+    opacity: 0.7;
+    transition: opacity 0.4s ease;
+    display: inline-block;
+    z-index: 2; /* Deixa o texto SEMPRE na frente da pílula */
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    opacity: 1;
+}
+
+/* Efeito Glassmorphism da pílula flutuante */
+.nav-pill {
+    position: absolute;
+    top: 50%;
+    left: 0; /* será alinhado pelo JS */
+    width: 0; /* será redimensionado pelo JS */
+    height: 42px; /* altura que abraça o texto e o padding */
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.08); /* Fundo cristalino/translúcido */
+    backdrop-filter: blur(12px); /* Propriedade do vidro fosco */
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 40px; /* Formato pílula */
+    border-top: 1px solid rgba(255, 255, 255, 0.35); /* Filete de reflexo de luz superior */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Escurece a base */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Aspecto de suspensão */
+    z-index: 1; /* Ficar imediatamente atrás dos <a> */
+    pointer-events: none; /* A pílula não interage com o mouse, só o texto a rege */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Movimento orgânico e elástico */
+    opacity: 0; /* Começa invisível até o JS ajustar o cálculo com tela pronta */
+}
+
+/* Hero Section */
+.hero {
+    position: fixed; /* Prende o vídeo atrás ao rolar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    overflow: hidden;
+    z-index: 1; /* Garantir que fique acima do vazio mas abaixo do wrapper */
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    /* Escala e desloca o vídeo levemente para "cortar" e retirar as bordas/marcas d'água das extremidades */
+    transform: scale(1.08) translate(2%, 2%);
+}
+
+/* Overlay gradient for readability and hiding elements */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Gradiente principal escurecendo a esquerda */
+        linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%),
+        /* Sombra pesada (Vignette) no canto inferior direito para disfarçar qualquer logo */
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0) 30%);
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 800px;
+    z-index: 1;
+}
+
+.hero-subtitle {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 1s ease 0.2s both;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1), 
+                 2px 2px 0 rgba(255, 255, 255, 0.05),
+                 3px 3px 0 rgba(255, 255, 255, 0.02); /* Text-shadow direcional cria "espessura" no 3D */
+}
+
+.hero-title {
+    font-size: 5rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -0.03em;
+    animation: fadeInUp 1s ease 0.4s both;
+}
+
+.hero-description {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #dfdfdf;
+    max-width: 600px;
+    animation: fadeInUp 1s ease 0.6s both;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.08), 
+                 2px 2px 0 rgba(255, 255, 255, 0.04),
+                 3px 3px 0 rgba(255, 255, 255, 0.01);
+}
+
+.hero-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    padding: 1.2rem 3.5rem;
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+.hero-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* --- Content Wrapper (Folha Branca Deslizante) --- */
+.content-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #fcfcfc; /* Branco Premium/Offwhite */
+    color: #111111;
+    z-index: 5;
+    /* Começa escondido do lado direito */
+    transform: translateX(100vw);
+    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
+    padding-top: 15vh; /* Ocupar o local livre do menu fixo */
+    will-change: transform;
+}
+
+.content-wrapper.active {
+    transform: translateX(0);
+}
+
+/* Sections Model - Fundo Branco */
+.content-section {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 4rem;
+}
+
+.content-section.alternate {
+    background-color: #f2f2f2;
+}
+
+.placeholder-content {
+    max-width: 800px;
+    text-align: center;
+}
+
+.placeholder-content h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+}
+
+.placeholder-content p {
+    font-size: 1.2rem;
+    color: #555555;
+    line-height: 1.6;
+}
+
+/* --- Carousel de Informações --- */
+.info-carousel-section {
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 8rem; /* Espaço à esquerda, transbordando na direita */
+    gap: 4rem;
+    overflow: hidden; /* Corta o transbordo da página lateralmente */
+}
+
+/* Painel Esquerdo Fixo */
+.info-content-left {
+    flex: 0 0 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+    color: #111;
+}
+
+.info-desc {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.carousel-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.carousel-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #dcdcdc;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.carousel-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.carousel-btn:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+    transform: scale(1.05);
+}
+
+.carousel-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Painel Direito (Trilha e Cards) */
+.info-carousel-right {
+    flex: 1;
+    overflow: hidden; /* Oculta a continuação nativa lateral */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 2rem;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+    padding-right: 4rem; /* Garante margem final de tela */
+}
+
+.carousel-card {
+    flex: 0 0 380px; /* Largura fixa do card limitando proporções */
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.card-img-wrapper {
+    width: 100%;
+    height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #eee; /* cor base caso não carregue */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.carousel-card:hover .card-img-wrapper img {
+    transform: scale(1.04);
+}
+
+.card-info h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #111;
+}
+
+.card-info p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* --- Color Selection Styling --- */
+.color-selection-section {
+    flex-direction: column;
+    padding: 6rem 4rem;
+}
+
+.color-picker-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4rem;
+    color: #111;
+    letter-spacing: -0.03em;
+}
+
+.color-picker-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8rem;
+}
+
+/* Imagem Esquerda com o Fade */
+.car-display {
+    flex: 0 0 55%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.car-display::after {
+    content: '';
+    position: absolute;
+    bottom: -1%;
+    left: 10%;
+    width: 80%;
+    height: 35px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 70%);
+    filter: blur(8px);
+    z-index: 0;
+}
+
+.car-display img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.car-display img.fade-out {
+    opacity: 0;
+    transform: translateX(10px); /* Leve pull quando sumir */
+}
+
+/* Painel Direita (Cores) */
+.color-options-panel {
+    flex: 0 0 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.color-balls {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.color-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.1), 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.color-btn::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border: 2px solid transparent; /* default invisible */
+    border-radius: 50%;
+    transition: border-color 0.3s ease;
+}
+
+.color-btn.active::after {
+    border-color: #444; /* Ring indicador premium */
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
+}
+
+#color-name-display {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #111;
+    margin-top: 0.5rem;
+    min-height: 2rem;
+    letter-spacing: -0.02em;
+    animation: fadeInColor 0.5s ease;
+}
+
+@keyframes fadeInColor {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Video Control Button */
+.video-control-btn {
+    position: absolute;
+    bottom: 3rem;
+    right: 4rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.video-control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.video-control-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: #ffffff;
+    fill: none;
+    transition: all 0.3s ease;
+}
+
+/* --- Layout da Seção de Vendas (Comprar) --- */
+.comprar-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    padding: 6rem 4rem;
+}
+
+.comprar-image-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.comprar-hero-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Sombra elegante pra não parecer um papel chapado */
+}
+
+.comprar-details-slider {
+    flex: 1;
+    overflow: hidden; /* Corta a visão do segundo slide */
+    position: relative;
+    padding: 0.5rem 0; /* Espaço para não amassar as eventuais sombras/bordas do formulário na rolagem lateral */
+}
+
+.slider-track {
+    display: flex;
+    width: 200%;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+}
+
+.slide-panel {
+    width: 50%;
+    flex-shrink: 0;
+    padding-right: 2rem; /* Espaço pro texto não colar direito */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botão voltar do Formulário */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #777;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.btn-back:hover {
+    color: #111;
+}
+
+.btn-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Form Styles inseridas de volta */
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.form-subtitle {
+    font-size: 1.05rem;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 2rem;
+}
+
+.interesse-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 95%;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.input-field {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fdfdfd;
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #111;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+.btn-interesse.full-width {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.comprar-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.separator-line {
+    border: none;
+    border-top: 1px solid #dcdcdc;
+    margin-bottom: 2rem;
+}
+
+.comprar-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.comprar-features li {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.comprar-features strong {
+    color: #222;
+    font-weight: 700;
+}
+
+.pricing-block {
+    margin-bottom: 2rem;
+}
+
+.price-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #333;
+    text-transform: lowercase;
+    margin-bottom: 0.3rem;
+}
+
+.price-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.btn-interesse {
+    align-self: flex-start;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    letter-spacing: -0.01em;
+}
+
+.btn-interesse:hover {
+    background: #222;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* --- Seção de Avaliações (Depoimentos) --- */
+.avaliacoes-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 8rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: radial-gradient(rgba(0,0,0,0.06) 1.2px, transparent 1.2px);
+    background-size: 32px 32px;
+}
+
+.avaliacoes-container .section-title {
+    color: #111; /* Alterado para Preto */
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 4rem;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.cards-wrapper {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+}
+
+.testimonial-card {
+    flex: 1;
+    background: #fff;
+    padding: 3.5rem 2.5rem;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0,0,0,0.03);
+    position: relative;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.07);
+}
+
+.testimonial-card.highlight {
+    box-shadow: 0 20px 70px rgba(0,0,0,0.1);
+    transform: translateY(-12px);
+    z-index: 2;
+}
+
+.testimonial-card.highlight:hover {
+    transform: translateY(-16px);
+}
+
+.test-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #111; /* Alterado para Preto */
+    margin-bottom: 1.8rem;
+    line-height: 1.3;
+}
+
+.test-quote {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+    flex-grow: 1;
+}
+
+.test-divider {
+    border: none;
+    border-top: 1px solid #f2f2f2;
+    margin: 2rem 0;
+}
+
+.test-author {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0; /* Alterado para Cinza */
+    border-radius: 12px;
+}
+
+.author-avatar svg {
+    width: 26px;
+    height: 26px;
+    stroke: #111; /* Alterado para Preto */
+    stroke-width: 1.5;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-info strong {
+    font-size: 1.05rem;
+    color: #111;
+    font-weight: 700;
+}
+
+.author-info span {
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 0.2rem;
+}
+
+/* Animations & 3D Elements */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .info-carousel-section {
+        flex-direction: column;
+        padding: 4rem 2rem;
+        gap: 2rem;
+    }
+    
+    .info-content-left {
+        flex: auto;
+        width: 100%;
+    }
+    
+    .info-title {
+        font-size: 2.5rem;
+    }
+    
+    .info-carousel-right {
+        width: 100%;
+        overflow: visible; /* Permite scroll nativo */
+    }
+    
+    .carousel-track {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 2rem; /* para a barrinha do celular */
+    }
+    
+    .carousel-card {
+        flex: 0 0 300px;
+        scroll-snap-align: center;
+    }
+    
+    .carousel-controls {
+        display: none; /* Desativa setas no mobile, usa deslize de dedo */
+    }
+    
+    /* Reponsividade Seleção de Cor */
+    .color-picker-content {
+        flex-direction: column;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .color-options-panel {
+        align-items: center;
+        flex: auto;
+    }
+    
+    /* Responsividade Seção de Compra */
+    .comprar-container {
+        flex-direction: column;
+        padding: 4rem 2rem 2rem; /* menos espaço entre carro e form no cel */
+    }
+
+    .comprar-image-wrapper {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    /* Responsividade Avaliações */
+    .avaliacoes-container {
+        padding: 4rem 2rem;
+    }
+
+    .cards-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+    }
+
+    .testimonial-card {
+        width: 100%;
+        max-width: 550px;
+        min-height: auto;
+    }
+
+    .testimonial-card.highlight {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1.5rem 2rem;
+    }
+    .hero {
+        padding: 0 2rem;
+    }
+    .hero-title {
+        font-size: 3rem;
+    }
+    .hero-description {
+        font-size: 1.1rem;
+    }
+    .hero-overlay {
+        background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%);
+    }
+    .video-control-btn {
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+    }
+}
