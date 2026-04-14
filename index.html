@@ -61,207 +61,202 @@
         </section>
 
         <div class="content-wrapper" id="content-wrapper">
-            <section id="informacoes" class="content-section info-carousel-section">
-                <div class="info-content-left">
-                    <h2 class="info-title">O veículo que eleva o<br>padrão dos SUVs</h2>
-                    <p class="info-desc">O Novo Aurum chegou para redefinir o que é ser premium. Mais design, tecnologia e segurança em cada viagem.</p>
-                    <div class="carousel-controls">
-                        <button class="carousel-btn prev-btn" aria-label="Anterior">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <button class="carousel-btn next-btn" aria-label="Próximo">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="info-carousel-right">
-                    <div class="carousel-track">
-                        <!-- Card 1 -->
-                        <div class="carousel-card">
-                            <div class="card-img-wrapper">
-                                <img src="assets/images/aurum_car_interior.png" alt="Interior">
-                            </div>
-                            <div class="card-info">
-                                <h3>Interna</h3>
-                                <p>O maior painel integrado da categoria com imersão total e detalhes premium.</p>
-                            </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="carousel-card">
-                            <div class="card-img-wrapper">
-                                <img src="assets/images/aurum_car_rodas.png" alt="Rodas">
-                            </div>
-                            <div class="card-info">
-                                <h3>Rodas Diamantadas</h3>
-                                <p>Rodas aerodinâmicas exclusivas desenhadas para máxima eficiência e postura imponente.</p>
-                            </div>
-                        </div>
-                        <!-- Card 3 -->
-                        <div class="carousel-card">
-                            <div class="card-img-wrapper">
-                                <img src="assets/images/aurum_car_teto.png" alt="Teto">
-                            </div>
-                            <div class="card-info">
-                                <h3>Visão Dinâmica</h3>
-                                <p>Teto imersivo e visão privilegiada com rígido isolamento termoacústico focado no conforto.</p>
-                            </div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="carousel-card">
-                            <div class="card-img-wrapper">
-                                <img src="assets/images/aurum_car_traseira.png" alt="Traseira">
-                            </div>
-                            <div class="card-info">
-                                <h3>Lanterna Traseira</h3>
-                                <p>Nova lanterna traseira interligada em fluxo contínuo guiando a harmonia das rodovias.</p>
-                            </div>
+            <div class="pages-container" id="pages-container">
+
+                <!-- ====== Info Carousel Page (1 página, 4 slides) ====== -->
+                <section id="informacoes" class="page-section info-carousel-page">
+
+                    <!-- Esquerda: Texto dinâmico + controles -->
+                    <div class="info-carousel-text">
+                        <span class="info-block-label" id="carousel-label">01 — Interna</span>
+                        <h2 class="info-block-title" id="carousel-title">Design<br>Interno</h2>
+
+                        <hr class="separator-line">
+
+                        <ul class="comprar-features" id="carousel-features">
+                            <li><strong>Painel Integrado:</strong> O maior da categoria, com imersão total e tela panorâmica.</li>
+                            <li><strong>Acabamento Premium:</strong> Couro ecológico de alta qualidade em cada detalhe.</li>
+                            <li><strong>Iluminação Ambiente:</strong> 64 cores configuráveis para cada momento da viagem.</li>
+                        </ul>
+
+                        <div class="info-carousel-controls">
+                            <button class="carousel-btn" id="info-prev" aria-label="Anterior">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button class="carousel-btn" id="info-next" aria-label="Próximo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
                         </div>
                     </div>
-                </div>
-            </section>
-            
-            <!-- Continuação das Informações: Cores -->
-            <div class="content-section alternate color-selection-section">
-                <div class="color-picker-container">
-                    <h2 class="section-title">Escolha o Aurum que combina com você</h2>
-                    
-                    <div class="color-picker-content">
-                        <!-- Imagem Grande -->
-                        <div class="car-display">
-                            <img src="assets/images/image (1)-Photoroom.png" alt="Corrente do Veículo" id="car-image-display">
+
+                    <!-- Direita: Carrossel de imagens com efeito 3D -->
+                    <div class="info-carousel-images" id="info-carousel-images">
+                        <div class="info-carousel-track" id="info-carousel-track">
+                            <!-- Slide 1: Interior -->
+                            <div class="info-carousel-slide">
+                                <div class="info-block-image-inner">
+                                    <img src="assets/images/aurum_car_interior.png" alt="Design Interno">
+                                </div>
+                            </div>
+                            <!-- Slide 2: Rodas -->
+                            <div class="info-carousel-slide">
+                                <div class="info-block-image-inner">
+                                    <img src="assets/images/aurum_car_rodas.png" alt="Rodas Diamantadas">
+                                </div>
+                            </div>
+                            <!-- Slide 3: Teto -->
+                            <div class="info-carousel-slide">
+                                <div class="info-block-image-inner">
+                                    <img src="assets/images/aurum_car_teto.png" alt="Visão Dinâmica">
+                                </div>
+                            </div>
+                            <!-- Slide 4: Traseira -->
+                            <div class="info-carousel-slide">
+                                <div class="info-block-image-inner">
+                                    <img src="assets/images/aurum_car_traseira.png" alt="Fluxo Contínuo">
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                </section>
+
+
+
+                <!-- ====== Page 2: Comprar ====== -->
+                <section id="comprar" class="page-section comprar-section">
+
+                    <!-- Vídeo de fundo -->
+                    <video class="comprar-bg-video" autoplay loop muted playsinline>
+                        <source src="assets/images/Electric_sedan_driving_202604131707.mp4" type="video/mp4">
+                    </video>
+                    <!-- Overlay leve no vídeo inteiro -->
+                    <div class="comprar-video-overlay"></div>
+
+                    <!-- Conteúdo: painel com camada escura 70% -->
+                    <div class="comprar-container">
+                        <div class="comprar-details-slider">
+                            <div class="slider-track" id="comprar-slider-track">
+                                
+                                <!-- Panel 1: A Oferta -->
+                                <div class="slide-panel offer-panel">
+                                    <h2 class="comprar-title">Aurum 2027. Domine o asfalto.<br>Ressignifique o futuro.</h2>
+                                    
+                                    <hr class="separator-line">
+                                    
+                                    <ul class="comprar-features">
+                                        <li><strong>Poder Sustentável:</strong> Performance máxima com extremo luxo.</li>
+                                        <li><strong>Versatilidade Imbatível:</strong> Pronto para a vida urbana ou épicas jornadas.</li>
+                                        <li><strong>Tecnologia Híbrida:</strong> O equilíbrio perfeito entre autonomia e força bruta.</li>
+                                    </ul>
+                                    
+                                    <div class="pricing-block">
+                                        <span class="price-label">valor:</span>
+                                        <h3 class="price-value">R$ 398.000,00</h3>
+                                    </div>
+                                    
+                                    <button class="btn-interesse" id="btn-show-form">Tenho Interesse</button>
+                                </div>
+                                
+                                <!-- Panel 2: O Formulário -->
+                                <div class="slide-panel form-panel">
+                                    <button class="btn-back" id="btn-hide-form" aria-label="Voltar para oferta">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                                        Voltar
+                                    </button>
+                                    
+                                    <div class="form-header">
+                                        <h3 class="form-title">Solicite Contato Exclusivo</h3>
+                                        <p class="form-subtitle">Preencha seus dados para garantirmos condições de lançamento e prioridade.</p>
+                                    </div>
+                                    
+                                    <form class="interesse-form" action="javascript:void(0);">
+                                        <input type="text" id="nome" class="input-field" placeholder="Nome Completo" required>
+                                        
+                                        <div class="form-row">
+                                            <input type="email" id="email" class="input-field" placeholder="E-mail" required>
+                                            <input type="tel" id="telefone" class="input-field" placeholder="Telefone" required>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <input type="text" id="cpf" class="input-field" placeholder="CPF" required>
+                                            <input type="text" id="cep" class="input-field" placeholder="CEP" required>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn-interesse full-width">Solicitar Reserva</button>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+
+
+                <!-- ====== Page 6: Avaliações ====== -->
+                <section id="avaliacoes" class="page-section">
+                    <div class="avaliacoes-container">
+                        <h2 class="section-title">Depoimentos</h2>
                         
-                        <!-- Painel de Seleção Lateral -->
-                        <div class="color-options-panel">
-                            <div class="color-balls">
-                                <button class="color-btn active" data-color="Cinza" data-img="assets/images/image (1)-Photoroom.png" style="background: linear-gradient(135deg, #a4abae, #555c60);" aria-label="Cinza"></button>
-                                <button class="color-btn" data-color="Azul" data-img="assets/images/aurum_blue_car-Photoroom.png" style="background: linear-gradient(135deg, #44668f, #1b2f4a);" aria-label="Azul"></button>
-                                <button class="color-btn" data-color="Preto" data-img="assets/images/aurum_black_car-Photoroom.png" style="background: linear-gradient(135deg, #4a4a4a, #0c0c0c);" aria-label="Preto"></button>
+                        <div class="cards-wrapper">
+                            <!-- Card 1 -->
+                            <div class="testimonial-card">
+                                <h4 class="test-title">O ápice da tecnologia</h4>
+                                <p class="test-quote">"Dirigir o Aurum é uma experiência transformadora. O nível de detalhes no acabamento e a interatividade digital do painel me surpreenderam desde o primeiro momento."</p>
+                                <hr class="test-divider">
+                                <div class="test-author">
+                                    <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                                    <div class="author-info">
+                                        <strong>Marcelo Ferreira</strong>
+                                        <span>São Paulo, SP</span>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 id="color-name-display">Cinza</h3>
+                            
+                            <!-- Card 2 (Elevated) -->
+                            <div class="testimonial-card highlight">
+                                <h4 class="test-title">Simplesmente impecável</h4>
+                                <p class="test-quote">"A combinação entre o design imponente e a suavidade da condução é perfeita. É um carro que entrega uma potência massiva sem nunca comprometer a elegância da viagem."</p>
+                                <hr class="test-divider">
+                                <div class="test-author">
+                                    <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                                    <div class="author-info">
+                                        <strong>Roberto Almeida</strong>
+                                        <span>Curitiba, PR</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 3 -->
+                            <div class="testimonial-card">
+                                <h4 class="test-title">Conforto inigualável</h4>
+                                <p class="test-quote">"O espaço interno e o extremo silêncio da cabine me conquistaram de vez. Viajar pela estrada agora tem um novo significado com todo esse requinte. É espetacular."</p>
+                                <hr class="test-divider">
+                                <div class="test-author">
+                                    <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                                    <div class="author-info">
+                                        <strong>Camila Duarte</strong>
+                                        <span>Belo Horizonte, MG</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
+
+            </div><!-- /pages-container -->
+
+            <!-- Page Progress Indicator -->
+            <div class="page-progress" id="page-progress">
+                <span class="page-progress-dot active" data-page="1"></span>
+                <span class="page-progress-dot" data-page="2"></span>
+                <span class="page-progress-dot" data-page="3"></span>
             </div>
-            
-            <!-- Início real de Comprar -->
-            <section id="comprar" class="content-section">
-                <div class="comprar-container">
-                    <!-- Esquerda: Imagem Fotográfica -->
-                    <div class="comprar-image-wrapper">
-                        <img src="assets/images/b5ec3581-9b84-4b67-b55b-a746d6a791a6.jpg" alt="Aurum em cenário luxuoso" class="comprar-hero-img">
-                    </div>
-                    
-                    <!-- Direita: Formulário/Informações de Venda em Slider -->
-                    <div class="comprar-details-slider">
-                        <div class="slider-track" id="comprar-slider-track">
-                            
-                            <!-- Panel 1: A Oferta -->
-                            <div class="slide-panel offer-panel">
-                                <h2 class="comprar-title">Aurum 2027. Domine o asfalto.<br>Ressignifique o futuro.</h2>
-                                
-                                <hr class="separator-line">
-                                
-                                <ul class="comprar-features">
-                                    <li><strong>Poder Sustentável:</strong> Performance máxima com extremo luxo.</li>
-                                    <li><strong>Versatilidade Imbatível:</strong> Pronto para a vida urbana ou épicas jornadas.</li>
-                                    <li><strong>Tecnologia Híbrida:</strong> O equilíbrio perfeito entre autonomia e força bruta.</li>
-                                </ul>
-                                
-                                <div class="pricing-block">
-                                    <span class="price-label">valor:</span>
-                                    <h3 class="price-value">R$ 398.000,00</h3>
-                                </div>
-                                
-                                <button class="btn-interesse" id="btn-show-form">Tenho Interesse</button>
-                            </div>
-                            
-                            <!-- Panel 2: O Formulário -->
-                            <div class="slide-panel form-panel">
-                                <button class="btn-back" id="btn-hide-form" aria-label="Voltar para oferta">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                                    Voltar
-                                </button>
-                                
-                                <div class="form-header">
-                                    <h3 class="form-title">Solicite Contato Exclusivo</h3>
-                                    <p class="form-subtitle">Preencha seus dados para garantirmos condições de lançamento e prioridade.</p>
-                                </div>
-                                
-                                <form class="interesse-form" action="javascript:void(0);">
-                                    <input type="text" id="nome" class="input-field" placeholder="Nome Completo" required>
-                                    
-                                    <div class="form-row">
-                                        <input type="email" id="email" class="input-field" placeholder="E-mail" required>
-                                        <input type="tel" id="telefone" class="input-field" placeholder="Telefone" required>
-                                    </div>
-                                    
-                                    <div class="form-row">
-                                        <input type="text" id="cpf" class="input-field" placeholder="CPF" required>
-                                        <input type="text" id="cep" class="input-field" placeholder="CEP" required>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn-interesse full-width">Solicitar Reserva</button>
-                                </form>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="avaliacoes" class="content-section">
-                <div class="avaliacoes-container">
-                    <h2 class="section-title">Depoimentos</h2>
-                    
-                    <div class="cards-wrapper">
-                        <!-- Card 1 -->
-                        <div class="testimonial-card">
-                            <h4 class="test-title">O ápice da tecnologia</h4>
-                            <p class="test-quote">"Dirigir o Aurum é uma experiência transformadora. O nível de detalhes no acabamento e a interatividade digital do painel me surpreenderam desde o primeiro momento."</p>
-                            <hr class="test-divider">
-                            <div class="test-author">
-                                <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                                <div class="author-info">
-                                    <strong>Marcelo Ferreira</strong>
-                                    <span>São Paulo, SP</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Card 2 (Elevated) -->
-                        <div class="testimonial-card highlight">
-                            <h4 class="test-title">Simplesmente impecável</h4>
-                            <p class="test-quote">"A combinação entre o design imponente e a suavidade da condução é perfeita. É um carro que entrega uma potência massiva sem nunca comprometer a elegância da viagem."</p>
-                            <hr class="test-divider">
-                            <div class="test-author">
-                                <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                                <div class="author-info">
-                                    <strong>Roberto Almeida</strong>
-                                    <span>Curitiba, PR</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Card 3 -->
-                        <div class="testimonial-card">
-                            <h4 class="test-title">Conforto inigualável</h4>
-                            <p class="test-quote">"O espaço interno e o extremo silêncio da cabine me conquistaram de vez. Viajar pela estrada agora tem um novo significado com todo esse requinte. É espetacular."</p>
-                            <hr class="test-divider">
-                            <div class="test-author">
-                                <div class="author-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                                <div class="author-info">
-                                    <strong>Camila Duarte</strong>
-                                    <span>Belo Horizonte, MG</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+
+        </div><!-- /content-wrapper -->
+    
 
     <script src="js/script.js"></script>
 </body>

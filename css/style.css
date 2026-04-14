@@ -1,9 +1,21 @@
+@font-face {
+    font-family: 'Obida';
+    src: url('../assets/fontes/obida/Obida.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
     --text-primary: #ffffff;
     --text-secondary: #a3a3a3;
     --accent: #ffd700;
+    --bg-dark: #000000;
+    --bg-dark-alt: #0a0a0a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-light: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -35,11 +47,11 @@ body {
 }
 
 body.light-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2); /* Preta 20% na folha branca */
+    background-color: rgba(255, 255, 255, 0.2); /* Branca 20% no fundo preto */
 }
 
 body.light-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.4); /* Leve escurecimento ao colocar o mouse */
+    background-color: rgba(255, 255, 255, 0.4); /* Leve clareamento ao colocar o mouse */
 }
 
 /* Splash Screen */
@@ -128,21 +140,21 @@ header .logo {
     transition: filter 0.5s ease;
 }
 
-/* Estado de Menu Aberto (Preto) sobre Fundo Branco */
+/* Estado de Menu sobre Fundo Escuro */
 header.header-scrolled .logo-image {
-    filter: brightness(0); /* Fica preto na folha branca */
+    filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.2)); /* Mantém brilho branco */
 }
 
 header.header-scrolled .main-nav a {
-    color: #000000; /* Mudar link pra preto */
-    font-weight: 600; /* Evita que o preto fino suma */
+    color: #ffffff; /* Mantém links brancos */
+    font-weight: 500;
 }
 
 header.header-scrolled .nav-pill {
-    background: rgba(0, 0, 0, 0.05); /* Escurece vidro da pílula */
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.1); /* Vidro claro sobre fundo preto */
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Nav Menu Styles */
@@ -258,11 +270,12 @@ header.header-scrolled .nav-pill {
 }
 
 .hero-title {
+    font-family: 'Obida', 'Inter', sans-serif;
     font-size: 5rem;
-    font-weight: 600;
+    font-weight: normal;
     line-height: 1.1;
     margin-bottom: 2rem;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     animation: fadeInUp 1s ease 0.4s both;
 }
 
@@ -298,25 +311,279 @@ header.header-scrolled .nav-pill {
     background-color: #f0f0f0;
 }
 
-/* --- Content Wrapper (Folha Branca Deslizante) --- */
+/* --- Content Wrapper (Full-Page Viewport) --- */
 .content-wrapper {
-    position: absolute;
+    position: fixed; /* Fica fixo como a hero */
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh;
-    background-color: #fcfcfc; /* Branco Premium/Offwhite */
-    color: #111111;
+    height: 100vh;
+    overflow: hidden; /* Esconde as outras pages */
+    background: var(--bg-dark);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: var(--text-primary);
     z-index: 5;
-    /* Começa escondido do lado direito */
-    transform: translateX(100vw);
-    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); 
-    padding-top: 15vh; /* Ocupar o local livre do menu fixo */
+    transform: translateX(100vw); /* Começa fora à direita */
+    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
     will-change: transform;
 }
 
 .content-wrapper.active {
     transform: translateX(0);
+}
+
+/* --- Pages Container (Horizontal Scroll Machine) --- */
+.pages-container {
+    display: flex;
+    width: max-content;
+    height: 100%; /* Fill the content-wrapper */
+    transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
+}
+
+/* --- Individual Full-Page Section --- */
+.page-section {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Info Block Layout (Image + Text) --- */
+.info-block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 6rem;
+    gap: 5rem;
+}
+
+.info-block.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Text Side */
+.info-block-text {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.info-block-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.info-block-title {
+    font-family: 'Obida', 'Inter', sans-serif;
+    font-size: 4.5rem;
+    font-weight: normal;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+}
+
+.info-block-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 380px;
+}
+
+/* Image Side with 3D Perspective */
+.info-block-image {
+    flex: 1;
+    height: 72vh;
+    perspective: 1400px;
+    cursor: crosshair;
+}
+
+.info-block-image-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    transform: rotateY(-8deg) rotateX(4deg) scale(0.96);
+    box-shadow:
+        30px 30px 80px rgba(0, 0, 0, 0.8),
+        -5px -5px 20px rgba(255, 255, 255, 0.02);
+    transition: box-shadow 0.6s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.info-block.reverse .info-block-image-inner {
+    transform: rotateY(8deg) rotateX(4deg) scale(0.96);
+}
+
+.info-block-image-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* --- Info Carousel Page (single page, internal carousel) --- */
+.info-carousel-page {
+    position: relative;
+    padding: 0;
+}
+
+/* === Image covers entire section === */
+.info-carousel-images {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.info-carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    will-change: transform;
+}
+
+.info-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+}
+
+.info-carousel-slide .info-block-image-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    overflow: hidden;
+    transform: none;
+    box-shadow: none;
+}
+
+.info-carousel-slide .info-block-image-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* === Gradient overlay: transparent left → dark right === */
+.info-carousel-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.0)  0%,
+        rgba(0, 0, 0, 0.0) 22%,
+        rgba(0, 0, 0, 0.55) 42%,
+        rgba(0, 0, 0, 0.88) 58%,
+        rgba(0, 0, 0, 0.97) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* === Vignette no canto inferior direito para esconder estrela da imagem === */
+.info-carousel-page::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35%;
+    height: 40%;
+    background: radial-gradient(ellipse at 100% 100%, rgba(10, 10, 10, 0.8) 0%, rgba(10, 10, 10, 0.4) 35%, rgba(0,0,0,0) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* === Text panel: floats over gradient on the LEFT side === */
+.info-carousel-text {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 48%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 3.5rem 0 6rem;
+    gap: 1.8rem;
+}
+
+.info-carousel-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.carousel-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.08);
+}
+
+.carousel-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Page Progress Indicator */
+.page-progress {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+}
+
+.page-progress-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.page-progress-dot.active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.5);
 }
 
 /* Sections Model - Fundo Branco */
@@ -329,7 +596,7 @@ header.header-scrolled .nav-pill {
 }
 
 .content-section.alternate {
-    background-color: #f2f2f2;
+    background-color: var(--bg-dark-alt);
 }
 
 .placeholder-content {
@@ -342,11 +609,12 @@ header.header-scrolled .nav-pill {
     font-weight: 600;
     margin-bottom: 1.5rem;
     letter-spacing: -0.03em;
+    color: var(--text-primary);
 }
 
 .placeholder-content p {
     font-size: 1.2rem;
-    color: #555555;
+    color: var(--text-secondary);
     line-height: 1.6;
 }
 
@@ -373,12 +641,12 @@ header.header-scrolled .nav-pill {
     line-height: 1.1;
     margin-bottom: 1.5rem;
     letter-spacing: -0.04em;
-    color: #111;
+    color: var(--text-primary);
 }
 
 .info-desc {
     font-size: 1.15rem;
-    color: #444;
+    color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 2.5rem;
 }
@@ -392,15 +660,15 @@ header.header-scrolled .nav-pill {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid #dcdcdc;
-    background: #fff;
+    border: 1px solid var(--border-light);
+    background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #333;
+    color: var(--text-primary);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .carousel-btn svg {
@@ -409,9 +677,9 @@ header.header-scrolled .nav-pill {
 }
 
 .carousel-btn:hover {
-    background: #111;
-    color: #fff;
-    border-color: #111;
+    background: #fff;
+    color: #000;
+    border-color: #fff;
     transform: scale(1.05);
 }
 
@@ -447,8 +715,8 @@ header.header-scrolled .nav-pill {
     height: 250px;
     border-radius: 12px;
     overflow: hidden;
-    background: #eee; /* cor base caso não carregue */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    background: #1a1a1a; /* cor base caso não carregue */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .card-img-wrapper img {
@@ -466,12 +734,12 @@ header.header-scrolled .nav-pill {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #111;
+    color: var(--text-primary);
 }
 
 .card-info p {
     font-size: 1rem;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
@@ -488,12 +756,13 @@ header.header-scrolled .nav-pill {
 }
 
 .section-title {
+    font-family: 'Obida', 'Inter', sans-serif;
     font-size: 2.8rem;
-    font-weight: 700;
+    font-weight: normal;
     text-align: center;
     margin-bottom: 4rem;
-    color: #111;
-    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 .color-picker-content {
@@ -585,7 +854,7 @@ header.header-scrolled .nav-pill {
 #color-name-display {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #111;
+    color: var(--text-primary);
     margin-top: 0.5rem;
     min-height: 2rem;
     letter-spacing: -0.02em;
@@ -630,53 +899,79 @@ header.header-scrolled .nav-pill {
     transition: all 0.3s ease;
 }
 
-/* --- Layout da Seção de Vendas (Comprar) --- */
-.comprar-container {
-    max-width: 1300px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    gap: 4rem;
-    align-items: center;
-    padding: 6rem 4rem;
-}
-
-.comprar-image-wrapper {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.comprar-hero-img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Sombra elegante pra não parecer um papel chapado */
-}
-
-.comprar-details-slider {
-    flex: 1;
-    overflow: hidden; /* Corta a visão do segundo slide */
+/* --- Seção de Compra com Vídeo de Fundo --- */
+.comprar-section {
     position: relative;
-    padding: 0.5rem 0; /* Espaço para não amassar as eventuais sombras/bordas do formulário na rolagem lateral */
+    overflow: hidden;
+}
+
+/* Vídeo de fundo - cobre toda a seção */
+.comprar-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/*
+    Overlay em degrêde: esquerda transparente → direita escura
+    Da esquerda para direita fica progressivamente menos transparente
+*/
+.comprar-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.0)  0%,
+        rgba(0, 0, 0, 0.0) 22%,
+        rgba(0, 0, 0, 0.55) 42%,
+        rgba(0, 0, 0, 0.86) 56%,
+        rgba(0, 0, 0, 0.95) 100%
+    );
+    z-index: 1;
+}
+
+/* Container: empurrado para a direita, ocupa 48% da largura, altura 100% */
+.comprar-container {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    width: 48%;
+    margin-left: auto; /* Alinha à direita */
+    display: flex;
+    align-items: stretch;
+}
+
+/* Card de compra: ocupa toda a altura, overflow hidden garante o slider */
+.comprar-details-slider {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
 }
 
 .slider-track {
     display: flex;
     width: 200%;
+    height: 100%;
     transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
     will-change: transform;
 }
 
 .slide-panel {
     width: 50%;
+    height: 100%;
     flex-shrink: 0;
-    padding-right: 2rem; /* Espaço pro texto não colar direito */
+    padding: 0 3.5rem 0 2rem;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
+
 
 /* Botão voltar do Formulário */
 .btn-back {
@@ -695,7 +990,7 @@ header.header-scrolled .nav-pill {
 }
 
 .btn-back:hover {
-    color: #111;
+    color: var(--text-primary);
 }
 
 .btn-back svg {
@@ -707,14 +1002,14 @@ header.header-scrolled .nav-pill {
 .form-title {
     font-size: 1.8rem;
     font-weight: 800;
-    color: #111;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     letter-spacing: -0.02em;
 }
 
 .form-subtitle {
     font-size: 1.05rem;
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.4;
     margin-bottom: 2rem;
 }
@@ -736,19 +1031,20 @@ header.header-scrolled .nav-pill {
 .input-field {
     width: 100%;
     padding: 1rem 1.2rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
     font-size: 0.95rem;
     font-family: inherit;
-    background: #fdfdfd;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
     transition: all 0.3s ease;
 }
 
 .input-field:focus {
     outline: none;
-    border-color: #111;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
 }
 
 .btn-interesse.full-width {
@@ -758,17 +1054,18 @@ header.header-scrolled .nav-pill {
 }
 
 .comprar-title {
+    font-family: 'Obida', 'Inter', sans-serif;
     font-size: 2.2rem;
-    font-weight: 800;
-    color: #111;
-    line-height: 1.2;
+    font-weight: normal;
+    color: var(--text-primary);
+    line-height: 1.15;
     margin-bottom: 2rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
 .separator-line {
     border: none;
-    border-top: 1px solid #dcdcdc;
+    border-top: 1px solid var(--border-light);
     margin-bottom: 2rem;
 }
 
@@ -783,12 +1080,12 @@ header.header-scrolled .nav-pill {
 
 .comprar-features li {
     font-size: 1.05rem;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.5;
 }
 
 .comprar-features strong {
-    color: #222;
+    color: var(--text-primary);
     font-weight: 700;
 }
 
@@ -800,37 +1097,38 @@ header.header-scrolled .nav-pill {
     display: block;
     font-size: 0.95rem;
     font-weight: 700;
-    color: #333;
+    color: var(--text-secondary);
     text-transform: lowercase;
     margin-bottom: 0.3rem;
 }
 
 .price-value {
+    font-family: 'Obida', 'Inter', sans-serif;
     font-size: 3rem;
-    font-weight: 800;
-    color: #111;
-    letter-spacing: -0.04em;
+    font-weight: normal;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
     line-height: 1;
 }
 
 .btn-interesse {
     align-self: flex-start;
-    background: #000;
-    color: #fff;
+    background: #ffffff;
+    color: #000000;
     border: none;
     padding: 1rem 3rem;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 6px;
+    border-radius: 50px; /* Mais arredondado como o hero btn */
     letter-spacing: -0.01em;
 }
 
 .btn-interesse:hover {
-    background: #222;
+    background: #f0f0f0;
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.15);
 }
 
 /* --- Seção de Avaliações (Depoimentos) --- */
@@ -842,12 +1140,10 @@ header.header-scrolled .nav-pill {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: radial-gradient(rgba(0,0,0,0.06) 1.2px, transparent 1.2px);
-    background-size: 32px 32px;
 }
 
 .avaliacoes-container .section-title {
-    color: #111; /* Alterado para Preto */
+    color: var(--text-primary);
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 4rem;
@@ -865,14 +1161,14 @@ header.header-scrolled .nav-pill {
 
 .testimonial-card {
     flex: 1;
-    background: #fff;
+    background: var(--bg-dark-alt);
     padding: 3.5rem 2.5rem;
     border-radius: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    border: 1px solid rgba(0,0,0,0.03);
+    border: 1px solid var(--border-light);
     position: relative;
 }
 
@@ -882,7 +1178,8 @@ header.header-scrolled .nav-pill {
 }
 
 .testimonial-card.highlight {
-    box-shadow: 0 20px 70px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+    background: #111; /* Pouco mais claro para o highlight */
     transform: translateY(-12px);
     z-index: 2;
 }
@@ -894,14 +1191,14 @@ header.header-scrolled .nav-pill {
 .test-title {
     font-size: 1.3rem;
     font-weight: 800;
-    color: #111; /* Alterado para Preto */
+    color: var(--text-primary);
     margin-bottom: 1.8rem;
     line-height: 1.3;
 }
 
 .test-quote {
     font-size: 1.05rem;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.8;
     margin-bottom: 2.5rem;
     font-style: italic;
@@ -910,7 +1207,7 @@ header.header-scrolled .nav-pill {
 
 .test-divider {
     border: none;
-    border-top: 1px solid #f2f2f2;
+    border-top: 1px solid var(--border-light);
     margin: 2rem 0;
 }
 
@@ -926,14 +1223,14 @@ header.header-scrolled .nav-pill {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f0f0f0; /* Alterado para Cinza */
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
 }
 
 .author-avatar svg {
     width: 26px;
     height: 26px;
-    stroke: #111; /* Alterado para Preto */
+    stroke: var(--text-primary);
     stroke-width: 1.5;
 }
 
@@ -944,7 +1241,7 @@ header.header-scrolled .nav-pill {
 
 .author-info strong {
     font-size: 1.05rem;
-    color: #111;
+    color: var(--text-primary);
     font-weight: 700;
 }
 
@@ -1001,18 +1298,6 @@ header.header-scrolled .nav-pill {
     
     .carousel-controls {
         display: none; /* Desativa setas no mobile, usa deslize de dedo */
-    }
-    
-    /* Reponsividade Seleção de Cor */
-    .color-picker-content {
-        flex-direction: column;
-        gap: 3rem;
-        text-align: center;
-    }
-    
-    .color-options-panel {
-        align-items: center;
-        flex: auto;
     }
     
     /* Responsividade Seção de Compra */
@@ -1072,3 +1357,5 @@ header.header-scrolled .nav-pill {
         height: 50px;
     }
 }
+
+

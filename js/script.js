@@ -223,112 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- Lógica do Carrossel de Informações ---
-    const track = document.querySelector('.carousel-track');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    
-    if (track && prevBtn && nextBtn) {
-        let currentIndex = 0;
-        
-        const updateCarousel = () => {
-            const cards = document.querySelectorAll('.carousel-card');
-            if (cards.length === 0) return;
-            
-            // Largura do card + o gap definido no CSS (2rem = 32px)
-            const gapPixels = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
-            const cardWidth = cards[0].offsetWidth + gapPixels;
-            
-            // Limites
-            const visibleCardsCount = Math.max(1, Math.floor(track.parentElement.offsetWidth / cardWidth));
-            const maxIndex = Math.max(0, cards.length - visibleCardsCount);
-            
-            if (currentIndex > maxIndex) currentIndex = maxIndex;
-            if (currentIndex < 0) currentIndex = 0;
-            
-            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-            
-            if (currentIndex === 0) {
-                prevBtn.classList.add('disabled');
-            } else {
-                prevBtn.classList.remove('disabled');
-            }
-            
-            if (currentIndex >= maxIndex) {
-                nextBtn.classList.add('disabled');
-            } else {
-                nextBtn.classList.remove('disabled');
-            }
-        };
-
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            const cards = document.querySelectorAll('.carousel-card');
-            const gapPixels = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
-            const cardWidth = cards[0].offsetWidth + gapPixels;
-            const visibleCardsCount = Math.max(1, Math.floor(track.parentElement.offsetWidth / cardWidth));
-            const maxIndex = Math.max(0, cards.length - visibleCardsCount);
-
-            if (currentIndex < maxIndex) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        window.addEventListener('resize', updateCarousel);
-        // Inicialização rápida para setar limites e classes disabled no load
-        setTimeout(updateCarousel, 100); 
-    }
-    
-    // --- Lógica do Seletor de Cores ---
-    const colorBtns = document.querySelectorAll('.color-btn');
-    const carImageDisplay = document.getElementById('car-image-display');
-    const colorNameDisplay = document.getElementById('color-name-display');
-    
-    if (colorBtns.length > 0 && carImageDisplay && colorNameDisplay) {
-        colorBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (btn.classList.contains('active')) return;
-                
-                // Remove estado ativo de todos e adiciona no clicado
-                colorBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Lê propriedades do dataset
-                const newImgSrc = btn.getAttribute('data-img');
-                const newColorName = btn.getAttribute('data-color');
-                
-                // Fade out na imagem atual
-                carImageDisplay.classList.add('fade-out');
-                
-                // Reset da Animação do Texto para engatilhar de novo
-                colorNameDisplay.style.animation = 'none';
-                // Trigger Reflow para forçar redraw do css
-                void colorNameDisplay.offsetWidth; 
-                
-                // Delay perfeito pra quando ela 'sumir'
-                setTimeout(() => {
-                    // Troca Asset de fato
-                    carImageDisplay.src = newImgSrc;
-                    colorNameDisplay.textContent = newColorName;
-                    
-                    // Inicia texto
-                    colorNameDisplay.style.animation = 'fadeInColor 0.5s ease forwards';
-                    
-                    // Tira classe fade-out, o css transition volta o fade in pro 100% natural
-                    carImageDisplay.classList.remove('fade-out');
-                }, 400); // 400ms do tempo do opacity no css
-            });
-        });
-    }
-    
-    // --- Lógica do Interativo de Compras (Slider Oferta/Formulário) ---
+    // --- Lógica do Comprar Slider (Form) ---
     const btnShowForm = document.getElementById('btn-show-form');
     const btnHideForm = document.getElementById('btn-hide-form');
     const comprarSliderTrack = document.getElementById('comprar-slider-track');
@@ -344,159 +239,239 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Mecânicas de Scroll Horizontal (Hero -> Páginas) ---
+
+
+// --- Info Carousel Logic (next/prev + text sync) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const prevBtn = document.getElementById('info-prev');
+    const nextBtn = document.getElementById('info-next');
+    const track = document.getElementById('info-carousel-track');
+    const labelEl = document.getElementById('carousel-label');
+    const titleEl = document.getElementById('carousel-title');
+    const featuresEl = document.getElementById('carousel-features');
+
+    if (!prevBtn || !nextBtn || !track) return;
+
+    const slides = [
+        {
+            label: '01 — Interna',
+            title: 'Design<br>Interno',
+            features: [
+                { bold: 'Painel Integrado:', text: ' O maior da categoria, com imersão total e tela panorâmica.' },
+                { bold: 'Acabamento Premium:', text: ' Couro ecológico de alta qualidade em cada detalhe.' },
+                { bold: 'Iluminação Ambiente:', text: ' 64 cores configuráveis para cada momento da viagem.' },
+            ]
+        },
+        {
+            label: '02 — Rodas',
+            title: 'Rodas<br>Diamantadas',
+            features: [
+                { bold: 'Design Aerodinâmico:', text: ' Forjadas para máxima eficiência e postura imponente.' },
+                { bold: 'Aro 21":', text: ' Perfil esportivo com redução de arrasto sem compromisso visual.' },
+                { bold: 'Acabamento Espelhado:', text: ' Polimento diamantado de alta precisão industrial.' },
+            ]
+        },
+        {
+            label: '03 — Teto',
+            title: 'Visão<br>Dinâmica',
+            features: [
+                { bold: 'Teto Panorâmico:', text: ' Visão privilegiada de 180° com vidro anti-UV integrado.' },
+                { bold: 'Isolamento Total:', text: ' Termoacústico rígido para silêncio absoluto na cabine.' },
+                { bold: 'Abertura Elétrica:', text: ' Controle de ventilação com memória de posição.' },
+            ]
+        },
+        {
+            label: '04 — Design',
+            title: 'Fluxo<br>Contínuo',
+            features: [
+                { bold: 'Lanterna Interligada:', text: ' Luz traseira em fluxo contínuo de ponta a ponta.' },
+                { bold: 'Assinatura Luminosa:', text: ' Identidade visual única e inconfundível no trânsito.' },
+                { bold: 'LED Matrix:', text: ' Tecnologia adaptativa que reage ao ambiente em tempo real.' },
+            ]
+        },
+    ];
+
+    let currentSlide = 0;
+
+    const updateFeatures = (index) => {
+        if (!featuresEl) return;
+        featuresEl.innerHTML = slides[index].features
+            .map(f => `<li><strong>${f.bold}</strong>${f.text}</li>`)
+            .join('');
+    };
+
+    const animateText = (index, direction) => {
+        const els = [labelEl, titleEl, featuresEl].filter(Boolean);
+        els.forEach(el => {
+            el.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+            el.style.opacity = '0';
+            el.style.transform = `translateY(${direction >= 0 ? '-12px' : '12px'})`;
+        });
+        setTimeout(() => {
+            if (labelEl) labelEl.textContent = slides[index].label;
+            if (titleEl) titleEl.innerHTML = slides[index].title;
+            updateFeatures(index);
+            els.forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            });
+        }, 260);
+    };
+
+    const goToSlide = (index) => {
+        const direction = index - currentSlide;
+        currentSlide = index;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        animateText(index, direction);
+    };
+
+    // === Auto-play: avança a cada 3 segundos ===
+    let autoPlayTimer = setInterval(() => {
+        goToSlide((currentSlide + 1) % slides.length);
+    }, 3000);
+
+    const resetAutoPlay = () => {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = setInterval(() => {
+            goToSlide((currentSlide + 1) % slides.length);
+        }, 3000);
+    };
+
+    prevBtn.addEventListener('click', () => {
+        goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        resetAutoPlay();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        goToSlide((currentSlide + 1) % slides.length);
+        resetAutoPlay();
+    });
+});
+
+
+// --- Full-Page Scroll System ---
 document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('header');
     const contentWrapper = document.getElementById('content-wrapper');
-    
-    if (!contentWrapper || !header) return;
+    const pagesContainer = document.getElementById('pages-container');
+    const progressDots = document.querySelectorAll('.page-progress-dot');
 
-    let isHeroView = true;
+    if (!contentWrapper || !header || !pagesContainer) return;
+
+    // Pages: 0 = hero, 1-3 = content pages (informacoes + comprar + avaliacoes)
+    const TOTAL_CONTENT_PAGES = 3;
+    let currentPageIndex = 0;
     let isAnimating = false;
 
-    const goToContent = () => {
-        if (isAnimating || !isHeroView) return;
-        isAnimating = true;
-        isHeroView = false;
-        
-        contentWrapper.classList.add('active');
-        header.classList.add('header-scrolled');
-        document.body.classList.add('light-scroll'); /* Troca o scroll pra cor preta translúcida */
-        
-        // Aguarda animação
-        setTimeout(() => {
-            document.body.style.overflowY = 'auto'; // Transição termina, liga scroll vertical normal
-            isAnimating = false;
-        }, 1000); 
+    // Map content page index to nav section
+    const navMap = {
+        1: '#informacoes',
+        2: '#comprar',
+        3: '#avaliacoes',
     };
 
-    const goToHero = () => {
-        if (isAnimating || isHeroView) return;
-        isAnimating = true;
-        
-        document.body.style.overflowY = 'hidden'; // Bloqueia scroll normal
-        contentWrapper.classList.remove('active');
-        header.classList.remove('header-scrolled');
-        document.body.classList.remove('light-scroll'); /* Retorna o scroll ao default (Branco/Oculto) */
-        
-        setTimeout(() => {
-            isHeroView = true;
-            isAnimating = false;
-            // Retorna o foco pro Início quando a hero aparecer
-            if (window.updateNavPill) {
-                window.updateNavPill('#inicio');
-            }
-        }, 1000);
+    const updateProgressDots = (pageIndex) => {
+        progressDots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === pageIndex - 1);
+        });
     };
 
-    // Exporta a função para o Nav Menu Interativo usar
-    window.aurumNavigation = (targetId) => {
-        if (targetId === '#inicio') {
-            goToHero();
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Retorna pro topo se tiver descido mto
-        } else {
-            const wasInHero = isHeroView;
-            if (isHeroView) {
-                goToContent();
-            }
-            // Delay o salto se tiver comutando visual
+    const navigateTo = (targetIndex) => {
+        if (targetIndex < 0 || targetIndex > TOTAL_CONTENT_PAGES) return;
+        if (isAnimating || targetIndex === currentPageIndex) return;
+        isAnimating = true;
+
+        currentPageIndex = targetIndex;
+
+        if (currentPageIndex === 0) {
+            // Go back to Hero
+            contentWrapper.classList.remove('active');
+            header.classList.remove('header-scrolled');
+            document.body.classList.remove('light-scroll');
+            // Reset pages position after the content-wrapper slides out
             setTimeout(() => {
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    const offsetTop = targetSection.getBoundingClientRect().top + window.scrollY;
-                    window.scrollTo({ top: offsetTop - 150, behavior: 'smooth' });
-                }
-            }, wasInHero ? 1050 : 0);
+                pagesContainer.style.transition = 'none';
+                pagesContainer.style.transform = 'translateX(0)';
+                setTimeout(() => {
+                    pagesContainer.style.transition = 'transform 0.9s cubic-bezier(0.77, 0, 0.175, 1)';
+                }, 50);
+            }, 1000);
+            updateProgressDots(0);
+            if (window.updateNavPill) window.updateNavPill('#inicio');
+        } else {
+            // Go to a content page
+            contentWrapper.classList.add('active');
+            header.classList.add('header-scrolled');
+            document.body.classList.add('light-scroll');
+
+            const pagesIndex = currentPageIndex - 1; // 0-based for pages-container
+            pagesContainer.style.transform = `translateX(-${pagesIndex * 100}vw)`;
+
+            updateProgressDots(currentPageIndex);
+            const navSection = navMap[currentPageIndex] || '#informacoes';
+            if (window.updateNavPill) window.updateNavPill(navSection);
         }
+
+        setTimeout(() => { isAnimating = false; }, 950);
     };
 
-    // Controle por Scroll do Mouse / Trackpad
-    window.addEventListener('wheel', (e) => {
-        if (isAnimating) {
-            e.preventDefault();
-            return;
-        }
-        
-        if (isHeroView) {
-            if (e.deltaY > 0) { // Indo pra baixo
-                e.preventDefault(); 
-                goToContent();
-            }
-        } else {
-            if (e.deltaY < 0 && window.scrollY <= 0) { // Indo pra cima E no topo da página
-                e.preventDefault();
-                goToHero();
-            }
-        }
-    }, { passive: false });
+    // Export navigation for nav menu
+    window.aurumNavigation = (targetId) => {
+        if (targetId === '#inicio') navigateTo(0);
+        else if (targetId === '#informacoes') navigateTo(1);
+        else if (targetId === '#comprar') navigateTo(2);
+        else if (targetId === '#avaliacoes') navigateTo(3);
+    };
 
-    // Intercepta o Botão Adquirir da Hero para não quebrar a transição via âncora nativa
+    // Progress dot clicks
+    progressDots.forEach((dot, i) => {
+        dot.addEventListener('click', () => navigateTo(i + 1));
+    });
+
+    // Hero "Adquirir" button
     const heroBtnAdquirir = document.querySelector('.hero-btn');
     if (heroBtnAdquirir) {
         heroBtnAdquirir.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = heroBtnAdquirir.getAttribute('href');
-            if (window.aurumNavigation) {
-                window.aurumNavigation(targetId);
-            }
+            navigateTo(5);
         });
     }
 
-    // Controle de Teclado
+    // Mouse Wheel
+    window.addEventListener('wheel', (e) => {
+        if (isAnimating) { e.preventDefault(); return; }
+        e.preventDefault();
+        if (e.deltaY > 0) navigateTo(currentPageIndex + 1);
+        else if (e.deltaY < 0) navigateTo(currentPageIndex - 1);
+    }, { passive: false });
+
+    // Keyboard
     window.addEventListener('keydown', (e) => {
         if (isAnimating) return;
-        
-        if (isHeroView) {
-            if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
-                e.preventDefault();
-                goToContent();
-            }
-        } else {
-            if (['ArrowUp', 'PageUp'].includes(e.key) && window.scrollY <= 0) {
-                e.preventDefault();
-                goToHero();
-            }
+        if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+            e.preventDefault();
+            navigateTo(currentPageIndex + 1);
+        } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+            e.preventDefault();
+            navigateTo(currentPageIndex - 1);
         }
     });
 
-    // Controle Touch Screen / Celular swipe
-    let startY = 0;
+    // Touch
+    let touchStartY = 0;
+    let touchMoved = false;
     window.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
+        touchStartY = e.touches[0].clientY;
+        touchMoved = false;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-        if (isAnimating) return;
-        let pY = e.touches[0].clientY;
-        let deltaY = startY - pY; // se positivo é igual a arrastar a tela pra baixo (queremos subir cont)
-        
-        if (isHeroView) {
-            if (deltaY > 40) { // threshold do swipe
-                goToContent();
-            }
-        } else {
-            if (deltaY < -40 && window.scrollY <= 0) {
-                goToHero();
-            }
+        if (isAnimating || touchMoved) return;
+        const deltaY = touchStartY - e.touches[0].clientY;
+        if (Math.abs(deltaY) > 40) {
+            touchMoved = true;
+            if (deltaY > 0) navigateTo(currentPageIndex + 1);
+            else navigateTo(currentPageIndex - 1);
         }
     }, { passive: true });
-
-    // Observador Inteligente de Rolagem Vertical (Espião de Seção)
-    window.addEventListener('scroll', () => {
-        if (isHeroView || isAnimating) return;
-        
-        let currentSectionId = '';
-        const sections = document.querySelectorAll('.content-section');
-        
-        sections.forEach(sec => {
-            // Conta 250px de margem do topo para que o menu reaja um pouco antes da seção preencher o centro
-            if (window.scrollY >= sec.offsetTop - 250) { 
-                currentSectionId = '#' + sec.getAttribute('id');
-            }
-        });
-        
-        if (currentSectionId && window.updateNavPill) {
-            window.updateNavPill(currentSectionId);
-        }
-    });
 });
