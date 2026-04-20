@@ -433,17 +433,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroBtnAdquirir) {
         heroBtnAdquirir.addEventListener('click', (e) => {
             e.preventDefault();
-            navigateTo(5);
+            navigateTo(2);
         });
     }
 
-    // Mouse Wheel
+    // === Infinite Auto-Scroll: Avaliações chat bubbles ===
+    const chatPanel = document.getElementById('chat-bubbles-panel');
+    const chatTrack = document.getElementById('chat-bubbles-track');
+
+    if (chatPanel && chatTrack) {
+        // Duplica as bolhas para o loop seamless (20 no total = 10 reais + 10 clones)
+        const originalBubbles = Array.from(chatTrack.querySelectorAll('.chat-bubble'));
+        originalBubbles.forEach(bubble => {
+            const clone = bubble.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            chatTrack.appendChild(clone);
+        });
+
+        // Pausa ao segurar o botão esquerdo do mouse
+        chatPanel.addEventListener('mousedown', (e) => {
+            if (e.button === 0) { // Apenas botão esquerdo
+                chatTrack.classList.add('paused');
+            }
+        });
+
+        // Retoma ao soltar o botão
+        document.addEventListener('mouseup', () => {
+            chatTrack.classList.remove('paused');
+        });
+
+        // Retoma também ao sair com o mouse do painel (segurança)
+        chatPanel.addEventListener('mouseleave', () => {
+            chatTrack.classList.remove('paused');
+        });
+    }
+
+    // Mouse Wheel — navegação normal de páginas (sem interceptação do chat)
     window.addEventListener('wheel', (e) => {
         if (isAnimating) { e.preventDefault(); return; }
         e.preventDefault();
         if (e.deltaY > 0) navigateTo(currentPageIndex + 1);
         else if (e.deltaY < 0) navigateTo(currentPageIndex - 1);
     }, { passive: false });
+
 
     // Keyboard
     window.addEventListener('keydown', (e) => {
