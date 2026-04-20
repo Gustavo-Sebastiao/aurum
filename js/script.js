@@ -382,16 +382,16 @@ document.addEventListener('DOMContentLoaded', () => {
         animateText(index, direction);
     };
 
-    // === Auto-play: avança a cada 3 segundos ===
+    // === Auto-play: avança a cada 7 segundos ===
     let autoPlayTimer = setInterval(() => {
         goToSlide((currentSlide + 1) % slides.length);
-    }, 3000);
+    }, 7000);
 
     const resetAutoPlay = () => {
         clearInterval(autoPlayTimer);
         autoPlayTimer = setInterval(() => {
             goToSlide((currentSlide + 1) % slides.length);
-        }, 3000);
+        }, 7000);
     };
 
     prevBtn.addEventListener('click', () => {

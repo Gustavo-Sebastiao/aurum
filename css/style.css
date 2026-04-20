@@ -1566,7 +1566,7 @@ header.header-scrolled .nav-pill {
         height: auto; /* Não ocupa 100% da altura como no desktop */
         top: auto;
         bottom: 0; /* Fixa na base absoluta da janela */
-        padding: 5rem 2rem 2.5rem 2rem; /* Menos padding inferior para colar o texto mais para o rodapé */
+        padding: 5rem 2rem 6rem 2rem; /* Restaurado padding inferior para acomodar os botões novamente */
         justify-content: flex-end; /* Joga todo o texto para o rodapé */
         align-items: flex-start;
         background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.85) 45%, transparent 100%); /* Sombra de baixo para cima mais densa */
@@ -1594,9 +1594,8 @@ header.header-scrolled .nav-pill {
         gap: 0.6rem;
     }
 
-    /* Esconde os botões direcionais no celular */
     .info-carousel-controls {
-        display: none;
+        margin-top: 0.5rem;
     }
 
     /* Remove totalmente a sombra/overlay principal lateral herdada do desktop */
