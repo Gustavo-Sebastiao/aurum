@@ -1607,6 +1607,24 @@ header.header-scrolled .nav-pill {
     .info-carousel-page::before {
         display: none !important;
     }
+
+    /* ===== COMPRAR MOBILE ===== */
+    /* Remove a trava de 48% na direita do desktop */
+    .comprar-container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    /* Adapta os painéis (oferta e formulário) para o mobile empurrando os conteúdos pro rodapé */
+    .slide-panel {
+        padding: 5rem 2rem 5rem 2rem;
+        justify-content: flex-end;
+    }
+
+    /* Altera o overlay do desktop (que cobria só o lado direito) para abranger o rodapé inteiro */
+    .comprar-video-overlay {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.75) 45%, transparent 100%);
+    }
 }
 
 /* ===== HAMBURGER BUTTON — 3 linhas simples, sem círculo (apenas mobile) ===== */
