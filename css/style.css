@@ -1551,6 +1551,39 @@ header.header-scrolled .nav-pill {
         width: 48px;
         height: 48px;
     }
+
+    /* ===== INFORMAÇÕES MOBILE (Carousel Text) ===== */
+    .info-carousel-text {
+        width: 100%;
+        padding: 5rem 2rem 5rem 2rem; /* Adicionado padding-top para não chocar com o mobile-menu e bottom para a nav */
+        justify-content: flex-start; /* Alinha o conteúdo mais para o topo/centro para fugir dos pontos de de paginação */
+        align-items: flex-start;
+        background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 100%); /* Efeito de degradê escuro mais forte na esquerda para dar leitura no mobile */
+    }
+
+    .info-block-title {
+        font-size: 2.2rem; /* Reduz para caber bem */
+    }
+    
+    .info-block-label {
+        font-size: 0.8rem;
+    }
+
+    .comprar-features {
+        font-size: 0.95rem; /* Ajusta a fonte da lista de texto */
+        gap: 1rem;
+    }
+
+    /* Ajuste no posicionamento da UI do carrossel para não conflitar com a navegação de páginas mobile que fica oculta, mas tem margin */
+    .info-carousel-controls {
+        margin-top: 1rem;
+    }
+
+    /* Reduz o dark layer do lado direito já que adicionamos do lado esquerdo */
+    .info-carousel-page::before {
+        width: 60%; 
+        background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    }
 }
 
 /* ===== HAMBURGER BUTTON — 3 linhas simples, sem círculo ===== */
