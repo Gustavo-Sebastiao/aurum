@@ -298,9 +298,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (btnShowForm) {
             btnShowForm.addEventListener('click', () => {
-                if (isMobile) {
+                if (window.innerWidth <= 768) {
                     const formPanel = document.querySelector('.form-panel');
-                    if (formPanel) comprarSliderTrack.scrollTo({ left: formPanel.offsetLeft, behavior: 'smooth' });
+                    if (formPanel) formPanel.classList.add('active');
                 } else {
                     comprarSliderTrack.style.transform = 'translateX(-50%)';
                 }
@@ -309,9 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (btnHideForm) {
             btnHideForm.addEventListener('click', () => {
-                if (isMobile) {
-                    const part2 = document.querySelector('.offer-part2');
-                    if (part2) comprarSliderTrack.scrollTo({ left: part2.offsetLeft, behavior: 'smooth' });
+                if (window.innerWidth <= 768) {
+                    const formPanel = document.querySelector('.form-panel');
+                    if (formPanel) formPanel.classList.remove('active');
                 } else {
                     comprarSliderTrack.style.transform = 'translateX(0)';
                 }
@@ -432,6 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Full-Page Scroll System ---
 document.addEventListener('DOMContentLoaded', () => {
+    const IS_MOBILE = window.innerWidth <= 768;
     const header = document.querySelector('header');
     const contentWrapper = document.getElementById('content-wrapper');
     const pagesContainer = document.getElementById('pages-container');
@@ -554,8 +555,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Retoma ao soltar o botão
+        // Pausa ao tocar na tela (mobile)
+        chatPanel.addEventListener('touchstart', () => {
+            chatTrack.classList.add('paused');
+        }, { passive: true });
+
+        // Retoma ao soltar o botão ou dedo
         document.addEventListener('mouseup', () => {
+            chatTrack.classList.remove('paused');
+        });
+        
+        document.addEventListener('touchend', () => {
+            chatTrack.classList.remove('paused');
+        });
+        
+        document.addEventListener('touchcancel', () => {
             chatTrack.classList.remove('paused');
         });
 
@@ -609,7 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // === Efeito Fade Up Premium pro Mobile ===
-    if (IS_MOBILE) {
+    if (window.innerWidth <= 768) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -623,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, { threshold: 0.15 }); // Aciona quando 15% estiver na tela
 
-        const fadeEls = document.querySelectorAll('.hero-content, .info-carousel-text, .slide-panel, .avaliacoes-title, .chat-bubbles-panel');
+        const fadeEls = document.querySelectorAll('.hero-content, .info-carousel-text, .slide-panel:not(.form-panel), .avaliacoes-title, .chat-bubbles-panel');
         fadeEls.forEach(el => {
             el.classList.add('fade-up-element');
             observer.observe(el);
