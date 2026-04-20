@@ -157,9 +157,8 @@ header.header-scrolled .nav-pill {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Nav Menu Styles — hidden on all sizes, replaced by hamburger */
+/* Nav Menu Styles — glass pill for desktop */
 .main-nav {
-    display: none;
     position: relative;
 }
 
@@ -1495,6 +1494,15 @@ header.header-scrolled .nav-pill {
         padding: 1.2rem 1.8rem;
     }
 
+    /* Esconde o nav desktop */
+    .main-nav {
+        display: none !important;
+    }
+
+    /* Mostra o botão hamburger apenas no mobile */
+    .mobile-menu-btn {
+        display: flex !important;
+    }
 
     /* ===== HERO MOBILE — apenas título + botão na base ===== */
     .hero {
@@ -1586,9 +1594,9 @@ header.header-scrolled .nav-pill {
     }
 }
 
-/* ===== HAMBURGER BUTTON — 3 linhas simples, sem círculo ===== */
+/* ===== HAMBURGER BUTTON — 3 linhas simples, sem círculo (apenas mobile) ===== */
 .mobile-menu-btn {
-    display: flex !important;
+    display: none; /* Escondido por padrão no desktop */
     position: relative;
     flex-shrink: 0;
     align-self: center;
