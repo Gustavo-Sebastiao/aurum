@@ -474,6 +474,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Export navigation for nav menu
     window.aurumNavigation = (targetId) => {
+        if (IS_MOBILE) {
+            // Native smooth scroll no mobile
+            const valMenu = document.getElementById('mobile-menu');
+            const valBtn = document.getElementById('mobile-menu-btn');
+            if (valMenu) valMenu.classList.remove('active');
+            if (valBtn) valBtn.classList.remove('open');
+            document.body.style.overflow = ''; // Release body lock
+
+            const targetSection = targetId === '#inicio' ? document.querySelector('.hero') : document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            return;
+        }
+
+        // SPA logic pro desktop
         if (targetId === '#inicio') navigateTo(0);
         else if (targetId === '#informacoes') navigateTo(1);
         else if (targetId === '#comprar') navigateTo(2);
@@ -527,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mouse Wheel — navegação normal de páginas (sem interceptação do chat)
     window.addEventListener('wheel', (e) => {
+        if (IS_MOBILE) return; // Permite o scroll vertical nativo
         if (isAnimating) { e.preventDefault(); return; }
         e.preventDefault();
         if (e.deltaY > 0) navigateTo(currentPageIndex + 1);
@@ -536,6 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Keyboard
     window.addEventListener('keydown', (e) => {
+        if (IS_MOBILE) return;
         if (isAnimating) return;
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
             e.preventDefault();
@@ -550,11 +568,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let touchStartY = 0;
     let touchMoved = false;
     window.addEventListener('touchstart', (e) => {
+        if (IS_MOBILE) return;
         touchStartY = e.touches[0].clientY;
         touchMoved = false;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
+        if (IS_MOBILE) return; // scroll natural entra em cena
         if (isAnimating || touchMoved) return;
         const deltaY = touchStartY - e.touches[0].clientY;
         if (Math.abs(deltaY) > 40) {
@@ -563,4 +583,26 @@ document.addEventListener('DOMContentLoaded', () => {
             else navigateTo(currentPageIndex - 1);
         }
     }, { passive: true });
+
+    // === Efeito Fade Up Premium pro Mobile ===
+    if (IS_MOBILE) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Descomente a linha abaixo para animar apenas uma vez
+                    // observer.unobserve(entry.target);
+                } else {
+                    // Remove visibility out of screen to re-animate on scroll up/down
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0.15 }); // Aciona quando 15% estiver na tela
+
+        const fadeEls = document.querySelectorAll('.hero-content, .info-carousel-text, .slide-panel, .avaliacoes-title, .chat-bubbles-panel');
+        fadeEls.forEach(el => {
+            el.classList.add('fade-up-element');
+            observer.observe(el);
+        });
+    }
 });

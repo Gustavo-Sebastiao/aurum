@@ -1489,6 +1489,58 @@ header.header-scrolled .nav-pill {
 
 @media (max-width: 768px) {
 
+    /* ===== NATIVE VERTICAL SCROLL (Overrides SPA) ===== */
+    body {
+        overflow-y: auto !important; /* Libera o scroll nativo */
+    }
+
+    .content-wrapper {
+        position: relative !important; /* Desprende para rolar a página livremente */
+        margin-top: 100vh !important; /* Começa exatamente após o hero (efeito cortina parallax) */
+        width: 100%;
+        height: auto !important;
+        transform: none !important; /* Desativa push pra direita no desktop */
+        transition: none !important;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+        display: block !important;
+    }
+
+    .pages-container {
+        display: flex;
+        flex-direction: column; /* Empilha as páginas (Informações, Comprar, Avaliações) */
+        width: 100% !important;
+        height: auto !important;
+        transform: none !important; /* Desativa javascript carrossel lateral */
+        transition: none !important;
+    }
+
+    .page-section {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh;
+        overflow: hidden; /* Mantém conteúdo interno contido na seção */
+        position: relative;
+    }
+
+    .page-progress {
+        display: none !important; /* Oculta progresso horizontal */
+    }
+
+    /* Animações Premium (Surgimento na Rolagem) */
+    .fade-up-element {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: opacity, transform;
+    }
+    
+    .fade-up-element.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+
     /* ===== HEADER ===== */
     header {
         padding: 1.2rem 1.8rem;
