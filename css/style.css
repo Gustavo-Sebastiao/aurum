@@ -1113,6 +1113,20 @@ header.header-scrolled .nav-pill {
 
 .btn-interesse {
     align-self: flex-start;
+}
+
+.btn-mobile-next {
+    display: none;
+}
+
+/* Garante que as partes recém divididas no HTML comportem-se como um bloco contínuo no desktop */
+.offer-part1, .offer-part2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-interesse {
+    align-self: flex-start;
     background: #ffffff;
     color: #000000;
     border: none;
@@ -1660,22 +1674,54 @@ header.header-scrolled .nav-pill {
         display: none !important;
     }
 
-    /* ===== COMPRAR MOBILE ===== */
+    /* ===== COMPRAR MOBILE (Carrossel Nativo Horizontal) ===== */
     /* Remove a trava de 48% na direita do desktop */
     .comprar-container {
         width: 100%;
         margin-left: 0;
     }
 
+    /* Track converte-se em contêiner de arrasto nativo para as 3 telas */
+    .comprar-details-slider .slider-track {
+        width: 100vw !important; /* Limita tela para comportar os itens que transbordarão */
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        transform: none !important; /* Desabilita Translate Javascript */
+        transition: none !important; /* Scroll é nativo agora */
+    }
+    
+    .comprar-details-slider .slider-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* O container pai offer some magicamente para promover os filhos ao slider */
+    .offer-panel {
+        display: contents !important;
+    }
+
     /* Adapta os painéis (oferta e formulário) para o mobile empurrando os conteúdos pro rodapé */
-    .slide-panel {
+    .slide-panel-mobile {
+        flex: 0 0 100vw !important; /* Cada slide ocupa a tela inteira */
+        width: 100vw !important;
+        scroll-snap-align: start;
         padding: 5rem 2rem 5rem 2rem;
-        justify-content: flex-end;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* Desce o texto para o rodapé da imagem */
+    }
+
+    /* Oculta botão antigo de "Tenho Interesse" no Painel 1 e exibe o "Ver Informações" */
+    .btn-mobile-next {
+        display: inline-flex !important;
+        margin-top: 1rem;
     }
 
     /* Altera o overlay do desktop (que cobria só o lado direito) para abranger o rodapé inteiro */
     .comprar-video-overlay {
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.75) 45%, transparent 100%);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.8) 45%, transparent 100%) !important;
     }
 }
 
