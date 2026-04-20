@@ -33,7 +33,25 @@
                 <li><a href="#avaliacoes">Avaliações</a></li>
             </ul>
         </nav>
+
+        <!-- Botão hamburger (mobile apenas) -->
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
+
+    <!-- Overlay menu mobile -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" role="dialog" aria-modal="true">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Fechar menu">✕</button>
+        <nav class="mobile-nav">
+            <a href="#inicio"      class="mobile-nav-link" data-target="#inicio">Início</a>
+            <a href="#informacoes" class="mobile-nav-link" data-target="#informacoes">Informações</a>
+            <a href="#comprar"     class="mobile-nav-link" data-target="#comprar">Comprar</a>
+            <a href="#avaliacoes"  class="mobile-nav-link" data-target="#avaliacoes">Avaliações</a>
+        </nav>
+    </div>
 
     <main>
         <section class="hero" id="inicio">

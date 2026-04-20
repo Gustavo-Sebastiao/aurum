@@ -119,18 +119,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Aplica o sistema para o nosso Título gigante, com um efeito e ângulo agudo forte
-    setup3DText(heroTitle, 'rotateY(25deg) rotateX(8deg)', 400);
+    const IS_MOBILE = window.innerWidth <= 768;
 
-    // Aplica o mesmo sistema para o parágrafo Description
-    // Aplica o mesmo sistema para o parágrafo Description com ângulo dramático
-    setup3DText(heroDesc, 'rotateY(30deg) rotateX(-2deg)', 250);
+    if (!IS_MOBILE) {
+        // Aplica o sistema para o nosso Título gigante, com um efeito e ângulo agudo forte
+        setup3DText(heroTitle, 'rotateY(25deg) rotateX(8deg)', 400);
 
-    // Aplica para o subtítulo do topo com ângulo dramático
-    setup3DText(heroSubtitle, 'rotateY(35deg) rotateX(-5deg)', 150);
+        // Aplica o mesmo sistema para o parágrafo Description com ângulo dramático
+        setup3DText(heroDesc, 'rotateY(30deg) rotateX(-2deg)', 250);
 
-    // Aplica o efeito no botão Adquirir (todo o botão flutua e se liberta)
-    setup3DButton(heroBtn, 'rotateY(25deg) rotateX(-2deg)');
+        // Aplica para o subtítulo do topo com ângulo dramático
+        setup3DText(heroSubtitle, 'rotateY(35deg) rotateX(-5deg)', 150);
+
+        // Aplica o efeito no botão Adquirir (todo o botão flutua e se liberta)
+        setup3DButton(heroBtn, 'rotateY(25deg) rotateX(-2deg)');
+    } else {
+        // No mobile: garante visibilidade sem transforms 3D
+        [heroTitle, heroDesc, heroSubtitle, heroBtn].forEach(el => {
+            if (el) {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+                el.style.animation = 'none';
+            }
+        });
+    }
 });
 
 // Nav Pill Interaction
@@ -199,6 +211,51 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
+});
+
+// === Mobile Hamburger Menu ===
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuBtn     = document.getElementById('mobile-menu-btn');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileMenuClose   = document.getElementById('mobile-menu-close');
+    const mobileNavLinks    = document.querySelectorAll('.mobile-nav-link');
+
+    if (!mobileMenuBtn || !mobileMenuOverlay) return;
+
+    const openMenu = () => {
+        mobileMenuBtn.classList.add('open');
+        mobileMenuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenu = () => {
+        mobileMenuBtn.classList.remove('open');
+        mobileMenuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuOverlay.classList.contains('active') ? closeMenu() : openMenu();
+    });
+
+    mobileMenuClose?.addEventListener('click', closeMenu);
+
+    // Navega ao clicar num link
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = link.getAttribute('data-target');
+            closeMenu();
+            setTimeout(() => {
+                if (window.aurumNavigation) window.aurumNavigation(target);
+            }, 320); // aguarda o overlay fechar
+        });
+    });
+
+    // Fecha ao clicar fora dos links (no fundo do overlay)
+    mobileMenuOverlay.addEventListener('click', (e) => {
+        if (e.target === mobileMenuOverlay) closeMenu();
+    });
 });
 
 // Video Control
