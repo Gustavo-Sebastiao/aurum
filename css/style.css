@@ -157,9 +157,10 @@ header.header-scrolled .nav-pill {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Nav Menu Styles */
+/* Nav Menu Styles — hidden on all sizes, replaced by hamburger */
 .main-nav {
-    position: relative; /* Container principal que guiará a pílula animada */
+    display: none;
+    position: relative;
 }
 
 .main-nav ul {
@@ -1494,15 +1495,6 @@ header.header-scrolled .nav-pill {
         padding: 1.2rem 1.8rem;
     }
 
-    /* Esconde o nav desktop */
-    .main-nav {
-        display: none;
-    }
-
-    /* Mostra o botão hamburger */
-    .mobile-menu-btn {
-        display: flex;
-    }
 
     /* ===== HERO MOBILE — apenas título + botão na base ===== */
     .hero {
@@ -1561,39 +1553,46 @@ header.header-scrolled .nav-pill {
     }
 }
 
-/* ===== HAMBURGER BUTTON (hidden by default on desktop) ===== */
+/* ===== HAMBURGER BUTTON — sempre visível no header ===== */
 .mobile-menu-btn {
-    display: none; /* Mostrado apenas no mobile via @media */
-    width: 52px;
-    height: 52px;
+    display: flex !important; /* força visibilidade */
+    position: relative;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
     cursor: pointer;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 5px;
     padding: 0;
-    transition: background 0.3s ease, transform 0.2s ease;
-    z-index: 200;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    z-index: 150;
 }
 
 .mobile-menu-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
     transform: scale(1.05);
 }
 
 /* 3 linhas do hamburger */
 .mobile-menu-btn span {
     display: block;
-    width: 20px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.9);
+    width: 18px;
+    height: 1.5px;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 2px;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
@@ -1601,15 +1600,16 @@ header.header-scrolled .nav-pill {
 
 /* Animação X quando aberto */
 .mobile-menu-btn.open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(6.5px) rotate(45deg);
 }
 .mobile-menu-btn.open span:nth-child(2) {
     opacity: 0;
     transform: scaleX(0);
 }
 .mobile-menu-btn.open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-6.5px) rotate(-45deg);
 }
+
 
 /* ===== MOBILE MENU OVERLAY ===== */
 .mobile-menu-overlay {
